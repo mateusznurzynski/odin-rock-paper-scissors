@@ -55,7 +55,6 @@ function getVerdict(playerChoice, computerChoice) {
 
 function play(choice) {
   let verdict;
-  choice = choice.toLowerCase();
   switch (choice) {
     case 'rock':
       verdict = getVerdict(ROCK, getComputerChoice());
@@ -67,7 +66,10 @@ function play(choice) {
       verdict = getVerdict(SCISSORS, getComputerChoice());
       break;
     default:
-      console.log('Please use rock, paper or scissors');
+      verdict = {
+        result: 'error',
+        message: null,
+      };
   }
   return verdict;
 }
@@ -81,6 +83,39 @@ function playFullGame() {
     let playerChoice = prompt(
       'What is your choice? (Type rock, paper or scissors)'
     );
-    play(playerChoice);
+    playerChoice = playerChoice.toLowerCase();
+    let isPlayerChoiceCorrect = false;
+    while (!isPlayerChoiceCorrect) {
+      if (
+        playerChoice !== 'rock' &&
+        playerChoice !== 'paper' &&
+        playerChoice !== 'scissors'
+      ) {
+        playerChoice = prompt(
+          'What is your choice? (Type rock, paper or scissors)'
+        );
+        playerChoice = playerChoice.toLowerCase();
+      } else {
+        isPlayerChoiceCorrect = true;
+      }
+    }
+
+    const verdict = play(playerChoice);
+    switch (verdict.result) {
+      case 'tie':
+        alert(verdict.message);
+        break;
+      case 'victory':
+        playerScore++;
+        alert(verdict.message);
+        break;
+      case 'defeat':
+        computerScore++;
+        alert(verdict.message);
+        break;
+      default:
+        alert('Something went wrong...');
+        break;
+    }
   }
 }
