@@ -33,12 +33,21 @@ function getComputerChoice() {
 function getVerdict(playerChoice, computerChoice) {
   let verdict;
   if (playerChoice === computerChoice) {
-    verdict = `Tie! You both chose ${playerChoice.name}`;
+    verdict = {
+      result: 'tie',
+      message: `Tie! You both chose ${playerChoice.name}`,
+    };
   } else {
     if (playerChoice.beats === computerChoice.losesTo) {
-      verdict = `You lost! ${playerChoice.name} loses to ${computerChoice.name}`;
+      verdict = {
+        result: 'defeat',
+        message: `You lost! ${playerChoice.name} loses to ${computerChoice.name}`,
+      };
     } else {
-      verdict = `You won! ${playerChoice.name} beats ${computerChoice.name}`;
+      verdict = {
+        result: 'victory',
+        message: `You won! ${playerChoice.name} beats ${computerChoice.name}`,
+      };
     }
   }
   return verdict;
@@ -61,4 +70,17 @@ function play(choice) {
       console.log('Please use rock, paper or scissors');
   }
   return verdict;
+}
+
+function playFullGame() {
+  let playerScore = 0;
+  let computerScore = 0;
+  const ROUND_LIMIT = 5;
+
+  for (let i = 0; i < 5; i++) {
+    let playerChoice = prompt(
+      'What is your choice? (Type rock, paper or scissors)'
+    );
+    play(playerChoice);
+  }
 }
