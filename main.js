@@ -1,20 +1,4 @@
-const ROCK = {
-  beats: 'scissors',
-  losesTo: 'paper',
-  name: 'Rock',
-};
-const PAPER = {
-  beats: 'rock',
-  losesTo: 'scissors',
-  name: 'Paper',
-};
-const SCISSORS = {
-  beats: 'paper',
-  losesTo: 'rock',
-  name: 'Scissors',
-};
-
-function getComputerChoice() {
+function getComputerChoice(ROCK, PAPER, SCISSORS) {
   let computerChoice;
   let choiceNum = Math.floor(Math.random() * 3) + 1;
   switch (choiceNum) {
@@ -38,15 +22,15 @@ function getVerdict(playerChoice, computerChoice) {
       message: `Tie! You both chose ${playerChoice.name}`,
     };
   } else {
-    if (playerChoice.beats === computerChoice.losesTo) {
-      verdict = {
-        result: 'defeat',
-        message: `You lost! ${playerChoice.name} loses to ${computerChoice.name}`,
-      };
-    } else {
+    if (playerChoice.beats === computerChoice.name.toLowerCase()) {
       verdict = {
         result: 'victory',
         message: `You won! ${playerChoice.name} beats ${computerChoice.name}`,
+      };
+    } else {
+      verdict = {
+        result: 'defeat',
+        message: `You lost! ${playerChoice.name} loses to ${computerChoice.name}`,
       };
     }
   }
@@ -54,16 +38,28 @@ function getVerdict(playerChoice, computerChoice) {
 }
 
 function play(choice) {
+  const ROCK = {
+    beats: 'scissors',
+    name: 'Rock',
+  };
+  const PAPER = {
+    beats: 'rock',
+    name: 'Paper',
+  };
+  const SCISSORS = {
+    beats: 'paper',
+    name: 'Scissors',
+  };
   let verdict;
   switch (choice) {
     case 'rock':
-      verdict = getVerdict(ROCK, getComputerChoice());
+      verdict = getVerdict(ROCK, getComputerChoice(ROCK, PAPER, SCISSORS));
       break;
     case 'paper':
-      verdict = getVerdict(PAPER, getComputerChoice());
+      verdict = getVerdict(PAPER, getComputerChoice(ROCK, PAPER, SCISSORS));
       break;
     case 'scissors':
-      verdict = getVerdict(SCISSORS, getComputerChoice());
+      verdict = getVerdict(SCISSORS, getComputerChoice(ROCK, PAPER, SCISSORS));
       break;
     default:
       verdict = {
