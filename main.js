@@ -1,5 +1,9 @@
 const cards = document.querySelectorAll('.card');
 const verdictOutput = document.querySelector('.verdict');
+const playerScoreElement = document.querySelector('.player-score-number');
+const computerScoreElement = document.querySelector('.computer-score-number');
+let playerScore = 0;
+let computerScore = 0;
 
 cards.forEach((card) => {
   card.addEventListener('click', play);
@@ -88,7 +92,18 @@ function play(choice) {
   verdictOutput.classList.remove('tie');
   verdictOutput.classList.add(verdict.result);
   verdictOutput.textContent = verdict.message;
+  updateScore(verdict.result);
   // return verdict;
+}
+
+function updateScore(result) {
+  if (result === 'victory') {
+    playerScore += 1;
+  } else if (result === 'defeat') {
+    computerScore += 1;
+  }
+  playerScoreElement.textContent = playerScore;
+  computerScoreElement.textContent = computerScore;
 }
 
 function playFullGame() {
