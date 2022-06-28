@@ -1,3 +1,10 @@
+const cards = document.querySelectorAll('.card');
+const verdictOutput = document.querySelector('.verdict');
+
+cards.forEach((card) => {
+  card.addEventListener('click', play);
+});
+
 function getComputerChoice(ROCK, PAPER, SCISSORS) {
   let computerChoice;
   let choiceNum = Math.floor(Math.random() * 3) + 1;
@@ -50,6 +57,10 @@ function play(choice) {
     beats: 'paper',
     name: 'Scissors',
   };
+
+  choice = choice.currentTarget.id;
+  console.log(choice);
+
   let verdict;
   switch (choice) {
     case 'rock':
@@ -64,10 +75,20 @@ function play(choice) {
     default:
       verdict = {
         result: 'error',
-        message: null,
+        message: 'Something went wrong...',
       };
   }
-  return verdict;
+  console.log(verdict);
+  if (verdict.result === 'error') {
+    alert('something went wrong');
+    return;
+  }
+  verdictOutput.classList.remove('victory');
+  verdictOutput.classList.remove('defeat');
+  verdictOutput.classList.remove('tie');
+  verdictOutput.classList.add(verdict.result);
+  verdictOutput.textContent = verdict.message;
+  // return verdict;
 }
 
 function playFullGame() {
