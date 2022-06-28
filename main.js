@@ -63,7 +63,6 @@ function play(choice) {
   };
 
   choice = choice.currentTarget.id;
-  console.log(choice);
 
   let verdict;
   switch (choice) {
@@ -82,7 +81,6 @@ function play(choice) {
         message: 'Something went wrong...',
       };
   }
-  console.log(verdict);
   if (verdict.result === 'error') {
     alert('something went wrong');
     return;
@@ -97,6 +95,7 @@ function play(choice) {
 }
 
 function updateScore(result) {
+  const POINTS_LIMIT = 5;
   if (result === 'victory') {
     playerScore += 1;
   } else if (result === 'defeat') {
@@ -104,6 +103,28 @@ function updateScore(result) {
   }
   playerScoreElement.textContent = playerScore;
   computerScoreElement.textContent = computerScore;
+  if (playerScore >= POINTS_LIMIT || computerScore >= POINTS_LIMIT) {
+    if (playerScore === computerScore) {
+      return;
+    }
+    const playerFinalResult = playerScore > computerScore ? 'won' : 'lost';
+    endGame(playerFinalResult);
+  }
+}
+
+function endGame(playerFinalResult) {
+  verdictOutput.classList.remove('victory');
+  verdictOutput.classList.remove('defeat');
+  verdictOutput.classList.remove('tie');
+  if (playerFinalResult === 'won') {
+    verdictOutput.classList.add('victory');
+  } else {
+    verdictOutput.classList.add('defeat');
+  }
+  verdictOutput.textContent = `Game over! You ${playerFinalResult}!`;
+  cards.forEach((card) => {
+    card.removeEventListener('click', play);
+  });
 }
 
 function playFullGame() {

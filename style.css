@@ -23,8 +23,9 @@ body {
 
 .player-score,
 .computer-score {
-  margin: 50px;
+  margin: 10px 50px;
   font-size: 150%;
+  width: 25%;
 }
 
 .score-number {
