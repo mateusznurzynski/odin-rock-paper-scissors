@@ -49,6 +49,8 @@ function getVerdict(playerChoice, computerChoice) {
 }
 
 function play(choice) {
+  choice = choice.currentTarget.id;
+  let verdict;
   const ROCK = {
     beats: 'scissors',
     name: 'Rock',
@@ -62,9 +64,6 @@ function play(choice) {
     name: 'Scissors',
   };
 
-  choice = choice.currentTarget.id;
-
-  let verdict;
   switch (choice) {
     case 'rock':
       verdict = getVerdict(ROCK, getComputerChoice(ROCK, PAPER, SCISSORS));
@@ -85,13 +84,10 @@ function play(choice) {
     alert('something went wrong');
     return;
   }
-  verdictOutput.classList.remove('victory');
-  verdictOutput.classList.remove('defeat');
-  verdictOutput.classList.remove('tie');
+  removeVerdictClasses();
   verdictOutput.classList.add(verdict.result);
   verdictOutput.textContent = verdict.message;
   updateScore(verdict.result);
-  // return verdict;
 }
 
 function updateScore(result) {
@@ -113,9 +109,7 @@ function updateScore(result) {
 }
 
 function endGame(playerFinalResult) {
-  verdictOutput.classList.remove('victory');
-  verdictOutput.classList.remove('defeat');
-  verdictOutput.classList.remove('tie');
+  removeVerdictClasses();
   if (playerFinalResult === 'won') {
     verdictOutput.classList.add('victory');
   } else {
@@ -127,70 +121,8 @@ function endGame(playerFinalResult) {
   });
 }
 
-function playFullGame() {
-  let playerScore = 0;
-  let computerScore = 0;
-  const ROUND_LIMIT = 5;
-
-  for (let i = 0; i < 5; i++) {
-    let playerChoice = getPlayerChoice();
-
-    const verdict = play(playerChoice);
-    switch (verdict.result) {
-      case 'tie':
-        alert(verdict.message);
-        break;
-      case 'victory':
-        playerScore++;
-        alert(verdict.message);
-        break;
-      case 'defeat':
-        computerScore++;
-        alert(verdict.message);
-        break;
-      default:
-        alert('Something went wrong...');
-        break;
-    }
-  }
-  declareWinner(playerScore, computerScore);
-}
-
-function getPlayerChoice() {
-  let playerChoice = prompt(
-    'What is your choice? (Type rock, paper or scissors)'
-  );
-  playerChoice = playerChoice.toLowerCase();
-  let isPlayerChoiceCorrect = false;
-  while (!isPlayerChoiceCorrect) {
-    if (
-      playerChoice !== 'rock' &&
-      playerChoice !== 'paper' &&
-      playerChoice !== 'scissors'
-    ) {
-      playerChoice = prompt(
-        'What is your choice? (Type rock, paper or scissors)'
-      );
-      playerChoice = playerChoice.toLowerCase();
-    } else {
-      isPlayerChoiceCorrect = true;
-    }
-  }
-  return playerChoice;
-}
-
-function declareWinner(playerScore, computerScore) {
-  if (playerScore > computerScore) {
-    alert(
-      `[Game over] You won! Your score: ${playerScore} Computer score: ${computerScore}`
-    );
-  } else if (playerScore < computerScore) {
-    alert(
-      `[Game over] You lost! Your score: ${playerScore} Computer score: ${computerScore}`
-    );
-  } else {
-    alert(
-      `[Game over] Tie! Your score: ${playerScore} Computer score: ${computerScore}`
-    );
-  }
+function removeVerdictClasses() {
+  verdictOutput.classList.remove('victory');
+  verdictOutput.classList.remove('defeat');
+  verdictOutput.classList.remove('tie');
 }
